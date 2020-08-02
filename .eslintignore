@@ -1,0 +1,10 @@
+src/assets/*
+src/fake-db/*
+src/layouts/components/vx-tooltip/VxTooltip.vue
+tailwind.config.js
+tailwind-v0.js
+vue.config.js
+themeConfig.js
+postcss.config.js
+babel.config.js
+/dist
