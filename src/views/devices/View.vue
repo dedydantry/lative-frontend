@@ -177,6 +177,7 @@
               icon="EyeIcon"
               svg-classes="h-4 w-4"
               class="mr-2 cursor-pointer"
+              @click="$router.push('/playlists/' + item.id)"
             />
           </vs-list-item>
 
@@ -207,7 +208,7 @@
 </template>
 
 <script>
-import Dates from "vue-date-fns"
+import {readID, insert, getDeviceStatus} from '@/firebase/FirebaseService'
 export default {
   data(){
     return{
@@ -229,6 +230,7 @@ export default {
         let device = await this.$axios.get('/api/device/' + deviceCode)
         if(device.status){
           this.device = device.data
+          this.checkDeviceOnFirebase(device.data)
         }
       } catch (error) {
         throw error
@@ -238,8 +240,32 @@ export default {
       if(!params) return ''
       params = params.split(' ')
       return this.$date(new Date(params[0]), 'dd-MMMM-yyyy')
+    },
+    async checkDeviceOnFirebase(params){
+      try {
+        let check = await readID('devices', params.code)
+        if(!check.status){
+          // insert device
+          let saveFirebase = await insert('devices', params.code,{
+              name:params.name,
+              code:params.code,
+              last_playlist:'',
+              last_video:'',
+              on_clear:0,
+              on_reload:0,
+              on_reset:0,
+              on_turn_off:0,
+              online:false,
+              uid:'',
+              app_id:params.app_id
+            })
+        }
+      } catch (error) {
+          throw error
+      }
     }
-  },
+
+  }
 
 }
 

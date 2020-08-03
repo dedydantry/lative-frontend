@@ -61,10 +61,14 @@ export default {
     ProfileDropDown,
   },
   props: {
-    logo: { type: String                                                                                                          },
+    logo: { 
+      type: String,
+      default:''
+    },
     navbarType: {
       type: String,
-      required: true
+      required: true,
+      default:''
     }
   },
   computed: {

@@ -86,18 +86,30 @@
             </vs-td>
 
             <vs-td>
-              <vs-chip
-                :color="tr.status ? 'success' : 'dark'"
-                class="product-order-status"
+              <a
+                href="javascript:;"
+                @click="onEnable(tr, indextr)"
               >
-                {{ tr.status ? 'Active' : 'Inactive' }}
-              </vs-chip>
+                <vs-chip
+                  :color="tr.status ? 'success' : 'dark'"
+                  class="product-order-status"
+                >
+                  {{ tr.status ? 'Enable' : 'Disable' }}
+                </vs-chip>
+              </a>
             </vs-td>
 
             <vs-td class="whitespace-no-wrap">
               <feather-icon
+                icon="EyeIcon"
+                color="primary"
+                svg-classes="w-5 h-5 hover:text-primary stroke-current"
+                @click="$router.push('/playlists/' + tr.id)"
+              />
+              <feather-icon
                 icon="EditIcon"
                 svg-classes="w-5 h-5 hover:text-primary stroke-current"
+                class="ml-2"
                 @click="$router.push('/playlists/edit/' + tr.id)"
               />
               <feather-icon
@@ -164,6 +176,46 @@ export default {
               title:'Warning',
               text:'Error: '+post.data,
               color:'danger',
+              position:'top-center'
+            })
+          } catch (error) {
+            this.$vs.loading.close()
+            this.$vs.notify({
+              title:'Warning',
+              text:'Error: '+error.message,
+              color:'danger',
+              position:'top-center'
+            })
+            throw error
+          }
+        }
+      })
+    },
+
+    onEnable(item, index){
+      this.$vs.dialog({
+        type:'confirm',
+        color: 'warning',
+        title: `Confirm`,
+        text: `Sure to ${item.status ? 'Disable' : 'Inable'} this playlist ?`,
+        accept:async()=>{
+          try {
+            this.$vs.loading()
+            let change = await this.$axios.put(`/api/playlist/${item.id}/set-status`)
+            this.$vs.loading.close()
+            if(change.status){
+              this.playlists[index].status = item.status ? false : true
+              return this.$vs.notify({
+                title:'Success',
+                text:'Playlist has been changed',
+                color:'success',
+                position:'top-center'
+              })
+            }
+            this.$vs.notify({
+              title:'Success',
+              text:'Error: '+ playlist.data,
+              color:'dannger',
               position:'top-center'
             })
           } catch (error) {

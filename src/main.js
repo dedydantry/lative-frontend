@@ -50,6 +50,9 @@ import './plugin/GoogleMaps'
 
 import './plugin/VueDateFns'
 
+// firabse
+import './firebase/FirebaseService'
+
 // PrismJS
 // import 'prismjs'
 // import 'prismjs/themes/prism-tomorrow.css'

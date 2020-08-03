@@ -87,7 +87,10 @@ export default {
   props: {
     header: {
       type: Object,
-      requried: true
+      requried: true,
+      default(){
+        return null
+      }
     },
     openOnHover: {
       type: Boolean,

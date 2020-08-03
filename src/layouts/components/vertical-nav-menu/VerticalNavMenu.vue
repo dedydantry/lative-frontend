@@ -171,12 +171,12 @@ export default {
     Logo
   },
   props: {
-    logo:             { type: String },
+    logo:             { type: String , default:''},
     openGroupHover:   { type: Boolean, default: false },
-    parent:           { type: String },
+    parent:           { type: String, default:'' },
     reduceNotRebound: { type: Boolean, default: true },
-    navMenuItems:     { type: Array,   required: true },
-    title:            { type: String },
+    navMenuItems:     { type: Array,   required: true, default(){return []} },
+    title:            { type: String, default:'' },
   },
   data: () => ({
     clickNotClose       : false, // disable close navMenu on outside click

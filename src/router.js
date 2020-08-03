@@ -26,6 +26,7 @@ import DeviceView from '@/views/devices/View'
 //Playlists
 import PlaylistIndex from '@/views/playlists/Index'
 import PlaylistForm from '@/views/playlists/Form'
+import PlaylistView from '@/views/playlists/View'
 
 const router = new Router({
     mode: 'history',
@@ -116,7 +117,7 @@ const router = new Router({
 					meta:{
 						breadcrumb: [
 							{ title: 'Dashboard', url: '/' },
-							{ title: 'Playlist List', active: true },
+							{ title: 'Playlist', url:'/devices'},
 							{ title: 'Playlist Form', active: true }
 						],
 						auth:true
@@ -129,8 +130,21 @@ const router = new Router({
 					meta:{
 						breadcrumb: [
 							{ title: 'Dashboard', url: '/' },
-							{ title: 'Playlist List', active: true },
+							{ title: 'Playlist', url:'/devices'},
 							{ title: 'Playlist Form', active: true }
+						],
+						auth:true
+					}
+				},
+				{
+					path: '/playlists/:id',
+					name: 'devicesView',
+					component: PlaylistView,
+					meta:{
+						breadcrumb: [
+							{ title: 'Dashboard', url: '/' },
+							{ title: 'Playlist', url:'/devices'},
+							{ title: 'Playlist Detail', active: true }
 						],
 						auth:true
 					}

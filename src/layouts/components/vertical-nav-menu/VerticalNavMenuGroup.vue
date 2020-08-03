@@ -29,9 +29,9 @@
 
         <!-- Group Icon -->
         <feather-icon
-          v-if="group.icon || (this.groupIndex > Math.floor(this.groupIndex))"
+          v-if="group.icon || (groupIndex > Math.floor(groupIndex))"
           :icon="group.icon || 'CircleIcon'"
-          :svg-classes="{ 'w-3 h-3' : this.groupIndex % 1 != 0 }"
+          :svg-classes="{ 'w-3 h-3' : groupIndex % 1 != 0 }"
         />
 
         <!-- Group Name -->
@@ -122,8 +122,8 @@ export default {
   props : {
     openHover  : { type: Boolean, default: false },
     open       : { type: Boolean, default: false },
-    group      : { type: Object },
-    groupIndex : { type: Number },
+    group      : { type: Object, default(){return null} },
+    groupIndex : { type: Number, default:'' },
   },
   data: () => ({
     maxHeight : '0px',
