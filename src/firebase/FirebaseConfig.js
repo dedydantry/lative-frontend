@@ -1,5 +1,6 @@
 import firebase from 'firebase/app'
-require("firebase/firestore")
+import 'firebase/database'
+import 'firebase/firestore'
 
 // Initialize Firebase
 const config = {
@@ -15,7 +16,10 @@ const config = {
 
 firebase.initializeApp(config)
 const FireStore = firebase.firestore()
+const Database = firebase.database()
+
 
 export {
-    FireStore
+    FireStore,
+    Database
 }

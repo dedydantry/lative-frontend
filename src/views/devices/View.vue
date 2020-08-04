@@ -28,6 +28,16 @@
             <ul class="sm:flex justify-around mt-8 w-full md:mt-0 md:m-auto md:w-3/4">
               <li class="p-2 sm:p-0">
                 <vs-button
+                  :color="deviceStatus ? 'success' : 'dark'"
+                  type="border"
+                  icon-pack="feather"
+                  icon="icon-check"
+                >
+                  {{ deviceStatus ? 'ONLINE' : 'OFFLINE' }}
+                </vs-button>
+              </li>
+              <li class="p-2 sm:p-0">
+                <vs-button
                   color="primary"
                   type="border"
                   icon-pack="feather"
@@ -208,11 +218,13 @@
 </template>
 
 <script>
-import {readID, insert, getDeviceStatus} from '@/firebase/FirebaseService'
+import {readDevice, insertDevices, listenOnline} from '@/firebase/DatabaseService'
 export default {
   data(){
     return{
       device:null,
+      firstRender:true,
+      deviceStatus:false
     }
   },
 
@@ -231,6 +243,7 @@ export default {
         if(device.status){
           this.device = device.data
           this.checkDeviceOnFirebase(device.data)
+          this.onlineEvent(device.data.code)
         }
       } catch (error) {
         throw error
@@ -243,28 +256,21 @@ export default {
     },
     async checkDeviceOnFirebase(params){
       try {
-        let check = await readID('devices', params.code)
-        if(!check.status){
-          // insert device
-          let saveFirebase = await insert('devices', params.code,{
-              name:params.name,
-              code:params.code,
-              last_playlist:'',
-              last_video:'',
-              on_clear:0,
-              on_reload:0,
-              on_reset:0,
-              on_turn_off:0,
-              online:false,
-              uid:'',
-              app_id:params.app_id
-            })
+        let check = await readDevice(params.code)
+        if(!check){
+          insertDevices(params, params.code)
         }
       } catch (error) {
-          throw error
+        throw error
       }
-    }
+    },
 
+    onlineEvent(code){
+      let listener = listenOnline(code)
+      listener.on('value', (snapshot) => {
+        return this.deviceStatus = snapshot.val() ? true : false
+      })
+    }
   }
 
 }

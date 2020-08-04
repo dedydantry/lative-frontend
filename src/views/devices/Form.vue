@@ -76,7 +76,7 @@
   </div>
 </template>
 <script>
-import {insert} from '@/firebase/FirebaseService'
+import {insertDevices} from '@/firebase/DatabaseService'
 import vSelect from 'vue-select'
 export default {
   components: {
@@ -159,19 +159,7 @@ export default {
           // save data to firebase 
           if(!this.deviceCode){
             post = post.data
-            let saveFirebase = await insert('devices', post.code,{
-              name:post.name,
-              code:post.code,
-              last_playlist:'',
-              last_video:'',
-              on_clear:0,
-              on_reload:0,
-              on_reset:0,
-              on_turn_off:0,
-              online:false,
-              uid:'',
-              app_id:post.app_id
-            })
+            insertDevices(post.data, post.data.code)
           }
           this.$vs.notify({
             title:'Success',
