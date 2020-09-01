@@ -112,7 +112,7 @@
           <div class="mt-5">
             <h6>Registered:</h6>
             <p class="text-sm">
-              {{ new Date(device.created_at) | date('dd MMMM yyyy') }}
+              {{ new Date(device.created_at) | date }}
             </p>
             <p class="text-sm bold">
               Author : {{ device.author }}
@@ -230,7 +230,6 @@ export default {
 
   mounted() {
     this.fetchDeviceByCode()
-    this.formatDate()
   },
 
   methods: {
@@ -252,7 +251,7 @@ export default {
     formatDate(params){
       if(!params) return ''
       params = params.split(' ')
-      return this.$date(new Date(params[0]), 'dd-MMMM-yyyy')
+      return this.$options.filters.date(new Date(params[0]))
     },
     async checkDeviceOnFirebase(params){
       try {

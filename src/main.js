@@ -48,8 +48,6 @@ Vue.use(VueHammer)
 // google map
 import './plugin/GoogleMaps'
 
-import './plugin/VueDateFns'
-
 // PrismJS
 // import 'prismjs'
 // import 'prismjs/themes/prism-tomorrow.css'

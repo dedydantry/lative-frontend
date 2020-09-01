@@ -63,13 +63,13 @@
 
             <vs-td>
               <p class="product-category">
-                {{ new Date(tr.start_date) | date('dd MMMM yyyy') }}
+                {{ new Date(tr.start_date) | date }}
               </p>
             </vs-td>
 
             <vs-td>
               <p class="product-category">
-                {{ new Date(tr.end_date) | date('dd MMMM yyyy') }}
+                {{ new Date(tr.end_date) | date }}
               </p>
             </vs-td>
 

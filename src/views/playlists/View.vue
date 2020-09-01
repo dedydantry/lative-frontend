@@ -20,14 +20,14 @@
           <div class="mt-5">
             <h6>Start:</h6>
             <p class="text-sm">
-              {{ new Date(playlist.start_date) | date('dd MMMM yyyy') }}
+              {{ new Date(playlist.start_date) | date }}
             </p>
           </div>
 
           <div class="mt-5">
             <h6>Finish:</h6>
             <p class="text-sm">
-              {{ new Date(playlist.end_date) | date('dd MMMM yyyy') }}
+              {{ new Date(playlist.end_date) | date }}
             </p>
           </div>
 
@@ -57,8 +57,16 @@
               class="page-suggestion flex items-center mb-4"
             >
               <div class="leading-tight">
-                <p class="font-medium" title="View video">
-                  <a href="javascript:;" @click="viewVideo(item)">{{ item.name | capitalize }}</a>
+                <p
+                  class="font-medium"
+                  title="View video"
+                >
+                  <a
+                    href="javascript:;"
+                    @click="viewVideo(item)"
+                  >
+                    {{ item.name | capitalize }}
+                  </a>
                 </p>
               </div>
               <div class="ml-auto">
@@ -128,7 +136,7 @@
                     icon="FlagIcon"
                     svg-classes="h-4 w-4"
                     class="mr-2 cursor-pointer"
-										@click="$router.push('/devices/' + item.code)"
+                    @click="$router.push('/devices/' + item.code)"
                   />
                 </div>
               </div>
@@ -137,29 +145,29 @@
         </vx-card>
       </div>
     </div>
-		<ViewPopup 
-			:show="toggleVideoPopup" 
-			:title="videoTitle"
-			:playerOptions="playerOptions" 
-			@close="toggleVideoPopup = false"
-		/>
+    <ViewPopup 
+      :show="toggleVideoPopup" 
+      :title="videoTitle"
+      :player-options="playerOptions" 
+      @close="toggleVideoPopup = false"
+    />
   </div>
 </template>
 
 <script>
 import ViewPopup from '@/components/VideoPopup'
 export default {
-	components:{
-		ViewPopup
-	},
+  components:{
+    ViewPopup
+  },
 
   data(){
     return{
       playlist:null,
       device:[],
-			videoTitle:'',
-			playerOptions:null,
-			toggleVideoPopup:false
+      videoTitle:'',
+      playerOptions:null,
+      toggleVideoPopup:false
     }
   },
 
@@ -183,20 +191,20 @@ export default {
       }
     },
 
-		viewVideo(item){
-			this.playerOptions = {
-				muted: true,
-				language: 'en',
-				sources : [{
-					type: "video/mp4",
-					src: item.link
-				}]
-			}
+    viewVideo(item){
+      this.playerOptions = {
+        muted: true,
+        language: 'en',
+        sources : [{
+          type: "video/mp4",
+          src: item.link
+        }]
+      }
 
-			this.videoTitle = item.name
+      this.videoTitle = item.name
 
-			return this.toggleVideoPopup = true
-		}
+      return this.toggleVideoPopup = true
+    }
   },
 
 }

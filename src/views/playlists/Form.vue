@@ -15,6 +15,7 @@
           <div class="vx-col sm:w-1/2 w-full">
             <flat-pickr
               v-model="fromDate"
+              :disabled="playlistID ? true : false"
               :config="configFromdateTimePicker"
               placeholder="Start Date"
               class="w-full"
@@ -157,6 +158,7 @@ import flatPickr from 'vue-flatpickr-component'
 import draggable from 'vuedraggable'
 import Filemanager from '@/components/Filemanager'
 import 'flatpickr/dist/flatpickr.css'
+import { addDays } from 'date-fns'
 export default {
   components: {
     'v-select': vSelect,
@@ -169,12 +171,8 @@ export default {
     return{
       fromDate:null,
       toDate:null,
-      configFromdateTimePicker: {
-        minDate: new Date(),
-        maxDate: null
-      },
       configTodateTimePicker: {
-        minDate: new Date(),
+        minDate: addDays(new Date(), 2),
       },
       name:'',
       tag:[],
@@ -195,6 +193,17 @@ export default {
         return this.autocomplete.place.formatted_address
       }
       return null
+    },
+
+    configFromdateTimePicker(){
+      if(this.playlistID) return {
+        minDate: this.fromDate,
+        // maxDate: null
+      }
+      return {
+        minDate: addDays(new Date(), 1),
+        maxDate: null
+      }
     }
   },
   mounted(){
