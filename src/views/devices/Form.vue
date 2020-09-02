@@ -158,7 +158,6 @@ export default {
         if(post.status){
           // save data to firebase 
           if(!this.deviceCode){
-            post = post.data
             insertDevices(post.data, post.data.code)
           }
           this.$vs.notify({
