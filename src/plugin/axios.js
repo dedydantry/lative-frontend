@@ -26,7 +26,7 @@ axios.defaults.headers.common['Authorization'] = 'Bearer '+token
 let config = {
     baseURL: process.env.VUE_APP_API_HOST || process.env.VUE_APP_API_HOST || "http://localhost:8000",
     timeout: 60 * 1000, // Timeout
-    // withCredentials: true, // Check cross-site Access-Control
+    withCredentials: true, // Check cross-site Access-Control
 }
 
 const _axios = axios.create(config)
