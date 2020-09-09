@@ -25,6 +25,7 @@
                 <li
                   v-for="(item, index) in videos"
                   :key="index"
+                  :title="item.name"
                   class="file-manager-item bg-white rounded flex flex-col flex-wrap justify-between border border-solid border-grey-light cursor-pointer"
                   @contextmenu="onRightClick($event)"
                   @click="onChoseFile(item)"
@@ -37,12 +38,13 @@
                       color="grey"
                     />
                   </div>
-                  <div class="file-names p-1">
+                  <div
+                    class="file-names p-1"
+                  >
                     <p
                       class="text-left"
-                      titl
                     >
-                      {{ item.name.slice(0, 15) }}
+                      {{ item.name.slice(0, 10) }}
                     </p>
                   </div>
                 </li>

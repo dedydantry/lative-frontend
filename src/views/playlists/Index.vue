@@ -5,7 +5,7 @@
   >
     <div class="row">
       <div class="w-full flex mb-3">
-        <div class="w-1/6 p-2 bg-gray-400">
+        <div class="sm:w-1/2 md:w-1/6 p-2 bg-gray-400">
           <!-- ADD NEW -->
           <div
             class="btn-add-new p-3 mb-4 mr-4 rounded-lg cursor-pointer flex items-center justify-center text-lg font-medium text-base text-primary border border-solid border-primary"
@@ -143,11 +143,15 @@ export default {
   methods: {
     async fetchPlaylist(){
       try {
+        this.$vs.loading()
+
         let playlist = await this.$axios.get('/api/playlist')
         if(playlist.status){
           this.playlists = playlist.data
         }
+        this.$vs.loading.close()
       } catch (error) {
+        this.$vs.loading.close()
         throw error
       }
     },

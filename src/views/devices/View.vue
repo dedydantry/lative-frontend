@@ -32,6 +32,7 @@
                   type="border"
                   icon-pack="feather"
                   icon="icon-check"
+                  class="w-full"
                 >
                   {{ deviceStatus ? 'ONLINE' : 'OFFLINE' }}
                 </vs-button>
@@ -42,6 +43,7 @@
                   type="border"
                   icon-pack="feather"
                   icon="icon-toggle-left"
+                  class="w-full"
                 >
                   Enabled
                 </vs-button>
@@ -52,6 +54,8 @@
                   type="border"
                   icon-pack="feather"
                   icon="icon-refresh-ccw"
+                  class="w-full"
+                  @click="onResetDevice()"
                 >
                   Reset
                 </vs-button>
@@ -62,6 +66,8 @@
                   type="border"
                   icon-pack="feather"
                   icon="icon-trash"
+                  class="w-full"
+                  @click="onClearDevice()"
                 >
                   Clean
                 </vs-button>
@@ -72,6 +78,8 @@
                   type="border"
                   icon-pack="feather"
                   icon="icon-power"
+                  class="w-full"
+                  @click="onTurnofDevice()"
                 >
                   Turn Off
                 </vs-button>
@@ -82,6 +90,8 @@
                   type="border"
                   icon-pack="feather"
                   icon="icon-refresh-cw"
+                  class="w-full"
+                  @click="onReloadDevice()"
                 >
                   Reload
                 </vs-button>
@@ -218,7 +228,15 @@
 </template>
 
 <script>
-import {readDevice, insertDevices, listenOnline} from '@/firebase/DatabaseService'
+import {
+  readDevice, 
+  insertDevices, 
+  listenOnline, 
+  listenReload,
+  listenTurnOf,
+  listenClear,
+  listenReset
+} from '@/firebase/DatabaseService'
 export default {
   data(){
     return{
@@ -235,6 +253,7 @@ export default {
   methods: {
     async fetchDeviceByCode(){
       try {
+        this.$vs.loading()
         const deviceCode = this.$route.params.code ? this.$route.params.code : null
         if(!deviceCode) return
         this.deviceCode = deviceCode
@@ -244,15 +263,19 @@ export default {
           this.checkDeviceOnFirebase(device.data)
           this.onlineEvent(device.data.code)
         }
+        this.$vs.loading.close()
       } catch (error) {
+        this.$vs.loading.close()
         throw error
       }
     },
+    
     formatDate(params){
       if(!params) return ''
       params = params.split(' ')
       return this.$options.filters.date(new Date(params[0]))
     },
+
     async checkDeviceOnFirebase(params){
       try {
         let check = await readDevice(params.code)
@@ -268,6 +291,54 @@ export default {
       let listener = listenOnline(code)
       listener.on('value', (snapshot) => {
         return this.deviceStatus = snapshot.val() ? true : false
+      })
+    },
+
+    onReloadDevice(){
+      this.$vs.dialog({
+        type:'confirm',
+        color: 'danger',
+        title: `Confirm`,
+        text: 'Sure to reload this device ?',
+        accept:()=>{
+          listenReload(this.device.code)
+        }
+      })
+    },
+
+    onTurnofDevice(){
+      this.$vs.dialog({
+        type:'confirm',
+        color: 'danger',
+        title: `Confirm`,
+        text: 'Sure to Turn off this device ?',
+        accept:()=>{
+          listenTurnOf(this.device.code)
+        }
+      })
+    },
+
+    onClearDevice(){
+      this.$vs.dialog({
+        type:'confirm',
+        color: 'danger',
+        title: `Confirm`,
+        text: 'Sure to clear this device ?',
+        accept:()=>{
+          listenClear(this.device.code)
+        }
+      })
+    },
+
+    onResetDevice(){
+      this.$vs.dialog({
+        type:'confirm',
+        color: 'danger',
+        title: `Confirm`,
+        text: 'Sure to reset this device ?',
+        accept:()=>{
+          listenReset(this.device.code)
+        }
       })
     }
   }

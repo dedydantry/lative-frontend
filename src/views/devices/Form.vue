@@ -23,15 +23,22 @@
             <v-select
               v-model="tag"
               multiple
-              taggable
-              push-tags
               class="mt-6"
               label="name"
               placeholder="Device Tag"
               :close-on-select="false"
               :options="optionsTag"
               :dir="$vs.rtl ? 'rtl' : 'ltr'"
-            /><br>
+            />
+            <div class="mt-2">
+              <a
+                href="javascript:;"
+                class="text-xs"
+                @click="formtag = true"
+              >
+                New Tag
+              </a>
+            </div>
           </div>
           <div class="vx-col w-full mb-2">
             <div class="vs-component vs-con-input-label vs-input w-full vs-input-primary is-label-placeholder">
@@ -94,7 +101,8 @@ export default {
       optionsTag: [],
 
       // edited
-      deviceCode:null
+      deviceCode:null,
+      formtag:false
     }
   },
   computed:{

@@ -178,6 +178,7 @@ export default {
   methods: {
     async fetchPlaylist(){
       try {
+        this.$vs.loading()
         const playlistID = this.$route.params.id
         if(!playlistID) return this.$router.push('/error-404')
 
@@ -186,8 +187,9 @@ export default {
           this.playlist = playlist.data.playlist
           this.device = playlist.data.device
         }
+        this.$vs.loading.close()
       } catch (error) {
-        console.log(error)
+        this.$vs.loading.close()
       }
     },
 

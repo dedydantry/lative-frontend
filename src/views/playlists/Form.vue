@@ -12,7 +12,7 @@
           </div>
         </div>
         <div class="vx-row mb-2">
-          <div class="vx-col sm:w-1/2 w-full">
+          <div class="vx-col sm:w-1/2 w-full mb-3">
             <flat-pickr
               v-model="fromDate"
               :disabled="playlistID ? true : false"
@@ -96,14 +96,14 @@
                     <vs-list-item
                       v-for="(listItem, index) in resources"
                       :key="index"
-                      :title="listItem.name"
-                      :subtitle="listItem.email"
+                      :subtitle="listItem.name"
                     >
                       <vs-avatar
                         slot="avatar"
                         icon-pack="feather"
                         icon="icon-film"
                         size="small"
+                        :title="listItem.name"
                       />
                       <feather-icon
                         icon="TrashIcon"
